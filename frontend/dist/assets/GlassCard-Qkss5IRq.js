@@ -1,1 +1,0 @@
-import{j as r,g as t}from"./index-CMQTzJ3t.js";function i({children:s,className:a="",hover:o=!0}){return r.jsx(t.div,{whileHover:o?{y:-4}:void 0,transition:{type:"spring",stiffness:300,damping:20},className:`relative rounded-3xl p-6 glass shadow-xl shadow-slate-900/5 dark:shadow-black/30 ${a}`,children:s})}export{i as G};

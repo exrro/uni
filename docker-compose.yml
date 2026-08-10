@@ -1,23 +1,18 @@
 version: "3.8"
 
+# Single service: the FastAPI backend also serves the built frontend,
+# so one container, one port, one command handles everything.
 services:
-  backend:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
-      FRONTEND_ORIGIN: http://localhost:80
+      # For Railway/Cloudflare you may not need CORS at all (same-origin),
+      # but this lets you add extra allowed origins if needed.
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-}
     ports:
       - "8000:8000"
     volumes:
       - ./data:/app/data
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    depends_on:
-      - backend

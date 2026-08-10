@@ -9,10 +9,12 @@ default Swagger appearance.
 
 import os
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from jose import JWTError, jwt
 
 from exceptions.custom_exceptions import CourseSelectionException
@@ -24,6 +26,26 @@ from routers.selection import router as selection_router
 from routers.students import router as students_router
 from services.auth_services import ALGORITHM, SECRET_KEY, require_role
 from storage import storage
+
+# Directory of the built frontend (produced by the multi-stage Docker build).
+# In local dev this may not exist, in which case Vite dev server is used.
+FRONTEND_DIST = Path(__file__).resolve().parent / "frontend" / "dist"
+
+# Backend API path prefixes (used to keep API 404s as JSON, not SPA HTML).
+_API_PREFIXES = (
+    "/students",
+    "/professors",
+    "/courses",
+    "/selection",
+    "/auth",
+    "/access",
+    "/summary",
+    "/all-data",
+    "/docs",
+    "/redoc",
+    "/openapi.json",
+    "/admin-login",
+)
 
 
 @asynccontextmanager
@@ -106,10 +128,18 @@ app.include_router(auth_router)
 app.include_router(access_router)
 
 
-# Root welcome endpoint (public, harmless).
-@app.get("/")
+# Root: serve the frontend when it has been built; otherwise a welcome JSON.
+@app.get("/", include_in_schema=False)
 def root():
+    if FRONTEND_DIST.exists():
+        return FileResponse(FRONTEND_DIST / "index.html")
     return {"message": "Welcome to the University Course Registration System"}
+
+
+# Health check — Railway/Cloudflare can probe this to confirm the app is up.
+@app.get("/health", include_in_schema=False)
+def health():
+    return {"status": "ok"}
 
 
 # Summary stats endpoint — admin only.
@@ -222,3 +252,24 @@ def admin_login():
 @app.exception_handler(CourseSelectionException)
 async def course_selection_exception_handler(request: Request, exc: CourseSelectionException):
     return JSONResponse(status_code=400, content={"detail": exc.message})
+
+
+# ---- Serve the built frontend (single-origin, one process, one port) ----
+# Only active when frontend/dist exists (production / Railway / Docker).
+if FRONTEND_DIST.exists():
+    # Static asset directories from the Vite build.
+    for sub in ("assets", "images", "fonts"):
+        _dir = FRONTEND_DIST / sub
+        if _dir.is_dir():
+            app.mount(f"/{sub}", StaticFiles(directory=_dir), name=f"frontend_{sub}")
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    def spa_fallback(full_path: str):
+        """Serve static files and SPA fallback (index.html) for client routes."""
+        candidate = FRONTEND_DIST / full_path
+        if candidate.is_file():
+            return FileResponse(candidate)
+        # Unknown API paths should stay JSON 404s, not return the SPA HTML.
+        if full_path and ("/" + full_path.split("/")[0]) in _API_PREFIXES:
+            return JSONResponse(status_code=404, content={"detail": "Not Found"})
+        return FileResponse(FRONTEND_DIST / "index.html")
