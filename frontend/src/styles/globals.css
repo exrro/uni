@@ -89,3 +89,161 @@ body {
     transform: translateX(-100%);
   }
 }
+
+/* ============================================================
+   Knowledge Journey background
+   Customization: colors below are the single place to tweak the
+   path look for light/dark mode.
+   ============================================================ */
+.knowledge-journey {
+  /* Light mode palette (deep navy / academic blue / muted silver) */
+  --kj-base: rgba(30, 58, 95, 0.10);
+  --kj-highlight: rgba(44, 90, 140, 0.35);
+  --kj-muted: rgba(30, 58, 95, 0.35);
+  --kj-node: rgba(44, 90, 140, 0.85);
+  --kj-node-glow: rgba(44, 90, 140, 0.35);
+  --kj-milestone: rgba(30, 58, 95, 0.28);
+  --kj-milestone-active: rgba(201, 162, 39, 0.8); /* restrained brand-gold accent */
+}
+.dark .knowledge-journey {
+  --kj-base: rgba(148, 163, 184, 0.10);
+  --kj-highlight: rgba(125, 160, 205, 0.35);
+  --kj-muted: rgba(148, 163, 184, 0.30);
+  --kj-node: rgba(125, 160, 205, 0.85);
+  --kj-node-glow: rgba(125, 160, 205, 0.30);
+  --kj-milestone: rgba(148, 163, 184, 0.25);
+  --kj-milestone-active: rgba(221, 187, 74, 0.85);
+}
+
+/* The moving progress node (HTML so it stays a perfect circle) */
+.kj-node {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--kj-node);
+  box-shadow: 0 0 0 4px var(--kj-node-glow), 0 0 14px var(--kj-node-glow);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  will-change: transform, opacity;
+}
+
+/* Milestone dots, lit progressively as sections enter the viewport */
+.kj-milestone {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--kj-milestone);
+  transform: translate(-50%, -50%);
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+.kj-milestone.is-active {
+  background: var(--kj-milestone-active);
+  box-shadow: 0 0 10px var(--kj-node-glow);
+}
+
+/* ============================================================
+   Hero scroll hint
+   ============================================================ */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--kj-muted);
+  opacity: 1;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.hero-scroll-hint.is-hidden {
+  opacity: 0;
+}
+.hero-scroll-hint__label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.hero-scroll-hint__line {
+  position: relative;
+  width: 1.5px;
+  height: 44px;
+  border-radius: 9999px;
+  background: var(--kj-base);
+  overflow: hidden;
+}
+/* A small glowing dot that gently moves down the short vertical line */
+.hero-scroll-hint__dot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--kj-node);
+  box-shadow: 0 0 8px var(--kj-node-glow);
+  transform: translate(-50%, 0);
+  animation: hintDrop 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes hintDrop {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 38px);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   Responsive behavior
+   Desktop  : path sits on the left whitespace (RTL page, so the
+              reading side is the right; left stays free).
+   Tablet   : soften the path.
+   Mobile   : keep it in the safe outer margin, low opacity.
+   ============================================================ */
+.knowledge-journey {
+  /* default (desktop): full visual presence */
+  opacity: 1;
+}
+@media (max-width: 1024px) {
+  .knowledge-journey {
+    opacity: 0.7;
+  }
+}
+@media (max-width: 640px) {
+  .knowledge-journey {
+    opacity: 0.45;
+  }
+  .hero-scroll-hint {
+    bottom: 18px;
+  }
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-hint__dot {
+    animation: none;
+    opacity: 0.7;
+    transform: translate(-50%, 14px);
+  }
+  .kj-node {
+    transition: none;
+  }
+  .kj-milestone {
+    transition: none;
+  }
+}

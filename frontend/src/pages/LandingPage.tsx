@@ -8,10 +8,13 @@ import GallerySection from '../components/landing/GallerySection'
 import FeaturesSection from '../components/landing/FeaturesSection'
 import CTASection from '../components/landing/CTASection'
 import Footer from '../components/landing/Footer'
+import KnowledgeJourneyBackground from '../components/landing/KnowledgeJourneyBackground'
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen">
+    <div className="relative min-h-screen overflow-x-clip">
+      {/* Persistent decorative "knowledge journey" background behind everything. */}
+      <KnowledgeJourneyBackground />
       <Navbar />
       <Hero />
       <AboutSection />

@@ -41,7 +41,7 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
 
 export default function StatsSection() {
   return (
-    <section className="py-20">
+    <section id="stats" className="py-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-5">
         {STATS.map((s, i) => (
           <GlassCard key={i} className="text-center py-8">

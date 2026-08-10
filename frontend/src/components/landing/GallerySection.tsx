@@ -12,7 +12,7 @@ const ITEMS = [
 
 export default function GallerySection() {
   return (
-    <section className="py-20">
+    <section id="gallery" className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <h2 className="text-3xl font-black text-center text-primary dark:text-white">گالری تصاویر</h2>
         <p className="mt-2 text-center text-slate-500 dark:text-slate-400">نمایی از فضاهای آموزشی و پژوهشی دانشگاه لرستان</p>
