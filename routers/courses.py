@@ -28,7 +28,9 @@ def create_course(
 
 
 @router.get("/")
-def list_courses(current_user: dict = Depends(require_role("admin"))) -> list:
+def list_courses(current_user: dict = Depends(get_current_user)) -> list:
+    # Any authenticated user (student, professor, admin) can list courses —
+    # students need it for the "انتخاب واحد" modal.
     try:
         courses = course_services.get_all_courses()
     except CourseSelectionException as e:
