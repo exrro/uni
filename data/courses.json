@@ -1,0 +1,92 @@
+{
+    "prog1": {
+        "title": "برنامه نویسی 1",
+        "code": "prog1",
+        "units": 3,
+        "capacity": 2,
+        "major": "مهندسی کامپیوتر",
+        "professor_id": "dr_rashnoo",
+        "students": [
+            "40411415045",
+            "40411415046"
+        ],
+        "grades": {
+            "40411415045": 18.0,
+            "40411415046": 0.0
+        },
+        "blocked_students": []
+    },
+    "prog2": {
+        "title": "برنامه نویسی 2",
+        "code": "prog2",
+        "units": 3,
+        "capacity": 2,
+        "major": "مهندسی کامپیوتر",
+        "professor_id": "dr_rashnoo",
+        "students": [
+            "40411415045",
+            "40411415046"
+        ],
+        "grades": {
+            "40411415045": 17.0,
+            "40411415046": 19.5
+        },
+        "blocked_students": []
+    },
+    "math1": {
+        "title": "ریاضی 1",
+        "code": "math1",
+        "units": 3,
+        "capacity": 25,
+        "major": "مشترک",
+        "professor_id": "dr_rezaei",
+        "students": [
+            "40411415046"
+        ],
+        "grades": {
+            "40411415046": 15.0
+        },
+        "blocked_students": []
+    },
+    "math2": {
+        "title": "ریاضی 2",
+        "code": "math2",
+        "units": 3,
+        "capacity": 25,
+        "major": "مشترک",
+        "professor_id": "dr_rezaei",
+        "students": [],
+        "grades": {},
+        "blocked_students": []
+    },
+    "fiz2": {
+        "title": "فیزیک 2",
+        "code": "fiz2",
+        "units": 3,
+        "capacity": 25,
+        "major": "مشترک",
+        "professor_id": "dr_mardani",
+        "students": [
+            "40411415046"
+        ],
+        "grades": {
+            "40411415046": 12.0
+        },
+        "blocked_students": []
+    },
+    "fiz1": {
+        "title": "فیزیک 1",
+        "code": "fiz1",
+        "units": 3,
+        "capacity": 25,
+        "major": "مشترک",
+        "professor_id": "dr_mardani",
+        "students": [
+            "40411415046"
+        ],
+        "grades": {
+            "40411415046": 17.0
+        },
+        "blocked_students": []
+    }
+}

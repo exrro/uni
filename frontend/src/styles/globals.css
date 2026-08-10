@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/vazirmatn.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Vazirmatn', system-ui, sans-serif;
+  @apply bg-surface text-slate-800 dark:bg-surface-dark dark:text-slate-100 antialiased;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-slate-700 rounded-full;
+}
+
+/* Persian numerals toggle */
+.fa-nums {
+  font-feature-settings: 'ss01';
+}
+
+/* Glass surface utility */
+.glass {
+  @apply bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/40 dark:border-white/10;
+}
+
+/* Animated gradient background */
+.gradient-bg {
+  background: linear-gradient(120deg, #1e3a5f, #2c5a8c, #c9a227, #1e3a5f);
+  background-size: 300% 300%;
+  animation: gradientShift 14s ease infinite;
+}
+
+/* Ripple animation used by RippleButton */
+.ripple-ink {
+  position: absolute;
+  border-radius: 9999px;
+  transform: scale(0);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: ripple 600ms ease-out forwards;
+  background: rgba(255, 255, 255, 0.6);
+}
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Tilt card */
+.tilt-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  @apply relative overflow-hidden bg-slate-200 dark:bg-slate-700 rounded-xl;
+}
+.skeleton::after {
+  content: '';
+  @apply absolute inset-0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}

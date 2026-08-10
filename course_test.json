@@ -1,0 +1,4 @@
+GET /courses/prog1 as prof: status=200
+  grades present: True
+GET /courses/prog1 as admin: status=200
+GET /courses/prog1 as student: status=403

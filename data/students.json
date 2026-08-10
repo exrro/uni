@@ -1,0 +1,29 @@
+{
+    "40411415045": {
+        "national_id": "4061643827",
+        "first_name": "سید علی",
+        "last_name": "سهرابی",
+        "student_number": "40411415045",
+        "major": "مهندسی کامپیوتر",
+        "selected_courses": [
+            "prog1",
+            "prog2"
+        ],
+        "has_access": true
+    },
+    "40411415046": {
+        "national_id": "4061683827",
+        "first_name": "محمد صالح",
+        "last_name": "کرمی",
+        "student_number": "40411415046",
+        "major": "مهندسی کامپیوتر",
+        "selected_courses": [
+            "fiz1",
+            "fiz2",
+            "math1",
+            "prog1",
+            "prog2"
+        ],
+        "has_access": true
+    }
+}

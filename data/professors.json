@@ -1,0 +1,35 @@
+{
+    "dr_rashnoo": {
+        "id": "05000000001",
+        "first_name": "آرمین",
+        "last_name": "رشنو",
+        "personnel_code": "dr_rashnoo",
+        "department": "فنی مهندسی",
+        "courses": [
+            "prog1",
+            "prog2"
+        ]
+    },
+    "dr_rezaei": {
+        "id": "05000000002",
+        "first_name": "محسن",
+        "last_name": "رضایی",
+        "personnel_code": "dr_rezaei",
+        "department": "فنی مهندسی",
+        "courses": [
+            "math1",
+            "math2"
+        ]
+    },
+    "dr_mardani": {
+        "id": "05000000003",
+        "first_name": "علی",
+        "last_name": "مردانی",
+        "personnel_code": "dr_mardani",
+        "department": "فنی مهندسی",
+        "courses": [
+            "fiz2",
+            "fiz1"
+        ]
+    }
+}
