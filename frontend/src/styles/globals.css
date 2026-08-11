@@ -91,56 +91,164 @@ body {
 }
 
 /* ============================================================
-   Knowledge Journey background
-   Customization: colors below are the single place to tweak the
-   path look for light/dark mode.
+   Ambient Background — layered depth for the (light) theme
+   Customization: tweak --ambient-* vars for glow strength/colors.
+   ============================================================ */
+.ambient-background {
+  --ambient-glow-1: rgba(44, 90, 140, 0.10);  /* soft academic blue */
+  --ambient-glow-2: rgba(79, 70, 229, 0.06);  /* faint indigo */
+  --ambient-glow-3: rgba(201, 162, 39, 0.05); /* whisper of brand gold */
+  --ambient-topo: rgba(30, 58, 95, 0.07);     /* topographic linework */
+  --ambient-topo-active: rgba(30, 58, 95, 0.14);
+  --ambient-grain: rgba(30, 41, 59, 0.04);
+  z-index: 0;
+}
+.dark .ambient-background {
+  --ambient-glow-1: rgba(59, 130, 246, 0.08);
+  --ambient-glow-2: rgba(99, 102, 241, 0.05);
+  --ambient-glow-3: rgba(221, 187, 74, 0.04);
+  --ambient-topo: rgba(148, 163, 184, 0.05);
+  --ambient-topo-active: rgba(148, 163, 184, 0.12);
+  --ambient-grain: rgba(203, 213, 225, 0.03);
+}
+
+/* Soft radial glows — large blurred blobs behind the sections */
+.ambient-glow {
+  position: absolute;
+  width: 46vw;
+  height: 46vw;
+  min-width: 420px;
+  min-height: 420px;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle,
+    var(--ambient-glow-1) 0%,
+    var(--ambient-glow-2) 45%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  opacity: 0.55;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: opacity, transform;
+}
+.ambient-glow--hero {
+  top: -6%;
+  right: -12%;
+  background: radial-gradient(
+    circle,
+    var(--ambient-glow-1) 0%,
+    var(--ambient-glow-2) 50%,
+    transparent 72%
+  );
+  opacity: 0.75;
+}
+/* One glow per section, spaced down the page, alternating sides for rhythm. */
+.ambient-glow[data-section='about'] { top: 96vh; left: -14%; }
+.ambient-glow[data-section='stats'] { top: 196vh; right: -12%; }
+.ambient-glow[data-section='gallery'] { top: 296vh; left: -10%; }
+.ambient-glow[data-section='features'] { top: 396vh; right: -14%; }
+.ambient-glow[data-section='contact'] { top: 486vh; left: 6%; width: 36vw; height: 36vw; min-width: 360px; min-height: 360px; }
+/* Activated glow brightens when its section is in view */
+.ambient-glow.is-active {
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+/* Topographic / academic contour linework (kept very faint) */
+.topographic-lines {
+  z-index: 0;
+}
+.topo-g path {
+  stroke: var(--ambient-topo);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  transition: stroke 0.6s ease;
+}
+.topo-g path:hover,
+.topo-g.is-active path {
+  stroke: var(--ambient-topo-active);
+}
+
+/* Grain / noise texture — premium paper-like surface */
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: 0.28;
+}
+
+/* ============================================================
+   Knowledge Journey background — BOLDER, higher contrast
+   Customization: --kj-* vars control path/node/milestone colors.
    ============================================================ */
 .knowledge-journey {
-  /* Light mode palette (deep navy / academic blue / muted silver) */
-  --kj-base: rgba(30, 58, 95, 0.10);
-  --kj-highlight: rgba(44, 90, 140, 0.35);
-  --kj-muted: rgba(30, 58, 95, 0.35);
-  --kj-node: rgba(44, 90, 140, 0.85);
-  --kj-node-glow: rgba(44, 90, 140, 0.35);
-  --kj-milestone: rgba(30, 58, 95, 0.28);
-  --kj-milestone-active: rgba(201, 162, 39, 0.8); /* restrained brand-gold accent */
+  /* Light theme: solid navy-blue path, clearly visible on white. */
+  --kj-base: rgba(30, 58, 95, 0.55);
+  --kj-highlight: rgba(30, 58, 95, 0.95);
+  --kj-glow: rgba(44, 90, 140, 0.45);
+  --kj-muted: rgba(30, 58, 95, 0.45);
+  --kj-node: #1E3A5F;
+  --kj-node-glow: rgba(44, 90, 140, 0.55);
+  --kj-milestone: rgba(30, 58, 95, 0.55);
+  --kj-milestone-active: #C9A227;
+  --kj-milestone-active-glow: rgba(201, 162, 39, 0.6);
 }
 .dark .knowledge-journey {
-  --kj-base: rgba(148, 163, 184, 0.10);
-  --kj-highlight: rgba(125, 160, 205, 0.35);
-  --kj-muted: rgba(148, 163, 184, 0.30);
-  --kj-node: rgba(125, 160, 205, 0.85);
-  --kj-node-glow: rgba(125, 160, 205, 0.30);
-  --kj-milestone: rgba(148, 163, 184, 0.25);
-  --kj-milestone-active: rgba(221, 187, 74, 0.85);
+  --kj-base: rgba(148, 163, 184, 0.35);
+  --kj-highlight: rgba(147, 178, 224, 0.9);
+  --kj-glow: rgba(125, 160, 205, 0.4);
+  --kj-muted: rgba(148, 163, 184, 0.45);
+  --kj-node: #93B2E0;
+  --kj-node-glow: rgba(147, 178, 224, 0.5);
+  --kj-milestone: rgba(148, 163, 184, 0.5);
+  --kj-milestone-active: #DDBB4A;
+  --kj-milestone-active-glow: rgba(221, 187, 74, 0.55);
+}
+
+/* Soft outer glow behind the whole path so it "pops" off the surface */
+.knowledge-journey .kj-path-glow {
+  stroke: var(--kj-glow);
+  stroke-width: 7;
+  stroke-linecap: round;
+  filter: blur(6px);
+  opacity: 0.5;
 }
 
 /* The moving progress node (HTML so it stays a perfect circle) */
 .kj-node {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   border-radius: 9999px;
   background: var(--kj-node);
-  box-shadow: 0 0 0 4px var(--kj-node-glow), 0 0 14px var(--kj-node-glow);
+  box-shadow:
+    0 0 0 5px var(--kj-node-glow),
+    0 0 18px var(--kj-node-glow),
+    0 0 30px var(--kj-node-glow);
   transform: translate(-50%, -50%);
   transition: opacity 0.3s ease;
   will-change: transform, opacity;
+  z-index: 2;
 }
 
 /* Milestone dots, lit progressively as sections enter the viewport */
 .kj-milestone {
   position: absolute;
-  width: 7px;
-  height: 7px;
+  width: 9px;
+  height: 9px;
   border-radius: 9999px;
   background: var(--kj-milestone);
+  box-shadow: 0 0 8px var(--kj-node-glow);
   transform: translate(-50%, -50%);
-  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+  transition: background-color 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
 }
 .kj-milestone.is-active {
   background: var(--kj-milestone-active);
-  box-shadow: 0 0 10px var(--kj-node-glow);
+  box-shadow: 0 0 12px var(--kj-milestone-active-glow);
+  transform: translate(-50%, -50%) scale(1.35);
 }
 
 /* ============================================================
@@ -170,10 +278,11 @@ body {
 }
 .hero-scroll-hint__line {
   position: relative;
-  width: 1.5px;
-  height: 44px;
+  width: 2.5px;
+  height: 48px;
   border-radius: 9999px;
   background: var(--kj-base);
+  box-shadow: 0 0 10px var(--kj-node-glow);
   overflow: hidden;
 }
 /* A small glowing dot that gently moves down the short vertical line */
@@ -181,11 +290,11 @@ body {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 9999px;
   background: var(--kj-node);
-  box-shadow: 0 0 8px var(--kj-node-glow);
+  box-shadow: 0 0 10px var(--kj-node-glow), 0 0 16px var(--kj-node-glow);
   transform: translate(-50%, 0);
   animation: hintDrop 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }

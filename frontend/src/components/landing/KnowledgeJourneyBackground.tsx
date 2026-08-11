@@ -141,24 +141,34 @@ export default function KnowledgeJourneyBackground() {
         viewBox={`0 0 100 ${VIEW_H}`}
         preserveAspectRatio="none"
       >
-        {/* Base path — thin, neutral */}
+        {/* Soft outer glow so the path pops off the white surface */}
+        <path
+          d={PATH_D}
+          fill="none"
+          vectorEffect="non-scaling-stroke"
+          stroke="var(--kj-glow)"
+          strokeWidth="7"
+          strokeLinecap="round"
+          className="kj-path-glow"
+        />
+        {/* Base path — clearly visible solid navy */}
         <path
           ref={basePathRef}
           d={PATH_D}
           fill="none"
           vectorEffect="non-scaling-stroke"
           stroke="var(--kj-base)"
-          strokeWidth="1.5"
+          strokeWidth="2.25"
           strokeLinecap="round"
         />
-        {/* Progress highlight — filled in as the user scrolls */}
+        {/* Progress highlight — filled in as the user scrolls (bolder) */}
         <path
           ref={highlightRef}
           d={PATH_D}
           fill="none"
           vectorEffect="non-scaling-stroke"
           stroke="var(--kj-highlight)"
-          strokeWidth="2.5"
+          strokeWidth="3.25"
           strokeLinecap="round"
           style={{ strokeDashoffset: 0 }}
         />
